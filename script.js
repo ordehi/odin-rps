@@ -1,11 +1,38 @@
-console.log(
-  `Welcome to Grass 🌿 Fire 🔥 Water 🌊.\n\nUse "play('choice')" to play, for example: "play('grass')"\n\nYou can also just enter one of the words in lower case: grass, fire, or water\n\nOr even just the first letter: g, f, w`
-);
-
 const choices = ['grass', 'fire', 'water'];
 const emojiChoices = ['🌿', '🔥', '🌊'];
-
 const funnyWords = ['calculating...', 'loading...', 'ejamicating...'];
+const styles = `background-color: blue; font-size: 16px; padding:5px;`;
+
+function printInStyle(message, style) {
+  console.log(`%c${message}`, style);
+}
+
+const greetingMessages = [
+  `Welcome to Grass 🌿 Fire 🔥 Water 🌊.`,
+  `Use "play('choice')" to play, for example: "play('grass')"`,
+  `You can also just enter the word in lower case: grass, fire, or water`,
+  `Or even just the first letter: g, f, w`,
+  `Type "score" to see the current score, and "reset" to start from scratch`,
+];
+
+function greeting(messages, style) {
+  for (const message of messages) {
+    printInStyle(message, style);
+  }
+}
+
+function game() {
+  window.rps = {
+    playerSelection: '',
+    computerSelection: '',
+    scoreBoard: {
+      player: 0,
+      computer: 0,
+    },
+  };
+
+  greeting(greetingMessages, styles);
+}
 
 function getRandomIntRange(upperLimit) {
   return Math.floor(Math.random() * upperLimit);
@@ -27,11 +54,6 @@ function getEmojiChoice(choice) {
   let emoji = emojiChoices[choices.indexOf(choice)];
   return emoji;
 }
-
-window.rps = {
-  playerSelection: '',
-  computerSelection: '',
-};
 
 function play(choice) {
   window.rps.playerSelection = choice.toLowerCase();
@@ -60,6 +82,7 @@ for (const choice of choices) {
     },
   });
 }
+
 for (const emoji of emojiChoices) {
   Object.defineProperty(window, emoji, {
     get: function () {
@@ -68,11 +91,19 @@ for (const emoji of emojiChoices) {
   });
 }
 
+function addPoint(scoreBoard, user) {
+  scoreBoard[user] += 1;
+}
+
+function displayScore(scoreBoard) {
+  console.log(
+    `Current score:\nPlayer: ${scoreBoard.player}\nComputer: ${scoreBoard.computer}`
+  );
+}
+
 function award(winner) {
-  let winnerMsg;
-  if (winner === 'player') winnerMsg = 'You Win!';
-  if (winner === 'computer') winnerMsg = 'Computer Wins!';
-  console.log(winnerMsg);
+  addPoint(window.rps.scoreBoard, winner);
+  console.log(capitalize(winner) + ' Wins!');
 }
 
 function declareWinner(players) {
@@ -89,4 +120,25 @@ function declareWinner(players) {
     if (computerSelection === 'grass') award('computer');
     if (computerSelection === 'fire') award('player');
   }
+  displayScore(window.rps.scoreBoard);
+  console.log('You can play again. Or type "reset" to start from scratch');
 }
+
+function resetGame() {
+  game();
+}
+
+Object.defineProperty(window, 'reset', {
+  get: function () {
+    console.clear();
+    resetGame();
+  },
+});
+
+Object.defineProperty(window, 'score', {
+  get: function () {
+    displayScore(window.rps.scoreBoard);
+  },
+});
+
+game();
