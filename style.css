@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Courier New', Courier, monospace;
   background-color: black;
@@ -20,7 +24,12 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   width: 80%;
+}
+
+#starters {
+  margin-bottom: 10px;
 }
 
 #starters img:hover {
@@ -31,6 +40,34 @@ h1 {
 #starters img {
   width: 200px;
   height: 200px;
+}
+
+#options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+}
+
+#options input, #options button {
+  width: 200px;
+}
+
+#options input {
+  margin-bottom: 5px;
+}
+
+#options button {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  background-color: black;
+  color: aliceblue;
+  border: 2px solid aliceblue;
+}
+
+#options button:hover {
+  background-color: #234;
+  cursor: pointer;
 }
 
 #result {
