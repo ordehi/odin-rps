@@ -7,11 +7,24 @@ function printInStyle(message, style) {
   console.log(`%c${message}`, style);
 }
 
+function capitalize(string) {
+  return string[0].toUpperCase() + string.substring(1);
+}
+
+let welcome = 'Welcome to';
+
+for (const choice of choices) {
+  welcome +=
+    ' ' + capitalize(choice) + ' ' + emojiChoices[choices.indexOf(choice)];
+}
+
 const greetingMessages = [
-  `Welcome to Grass 🌿 Fire 🔥 Water 🌊.`,
-  `Use "play('choice')" to play, for example: "play('grass')"`,
-  `You can also just enter the word in lower case: grass, fire, or water`,
-  `Or even just the first letter: g, f, w`,
+  welcome,
+  `Use "play('choice')" to play, for example: "play('${choices[0]}')"`,
+  `You can also just enter the word in lower case: ${choices.join(', ')}`,
+  `Or even just the first letter: ${choices
+    .map((choice) => choice[0])
+    .join(', ')}`,
   `Type "score" to see the current score, and "reset" to start from scratch`,
 ];
 
@@ -36,10 +49,6 @@ function game() {
 
 function getRandomIntRange(upperLimit) {
   return Math.floor(Math.random() * upperLimit);
-}
-
-function capitalize(string) {
-  return string[0].toUpperCase() + string.substring(1);
 }
 
 function getComputerChoice() {
