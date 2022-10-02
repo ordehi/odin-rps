@@ -2,6 +2,7 @@
 /* 0 > 1 > 2
 last index beats first index */
 const starters = document.getElementById('starters');
+const result = document.getElementById('result');
 const grass = document.getElementById('grass');
 const fire = document.getElementById('fire');
 const water = document.getElementById('water');
@@ -156,13 +157,16 @@ function award(winner) {
 function declareWinner(players) {
   const { playerSelection, computerSelection } = players;
   let winner = getWinner(playerSelection, computerSelection);
+  let message;
   if (winner === 'tie') {
-    printInStyle("It's a Tie!", styles);
+    message = "It's a Tie!";
   } else {
     award(winner);
-    printInStyle(capitalize(winner) + ' Wins!', styles);
+    message = capitalize(winner) + ' Wins!';
   }
 
+  printInStyle(message, styles);
+  result.innerHTML = message;
   displayScore(window.rps.scoreBoard);
   console.log('You can play again. Or type "reset" to start from scratch');
 }
