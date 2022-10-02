@@ -5,6 +5,7 @@ const starters = document.getElementById('starters');
 const options = document.getElementById('options');
 const playerNameInput = document.getElementById('playerName');
 const setName = document.getElementById('setName');
+const resetBtn = document.getElementById('reset');
 const result = document.getElementById('result');
 const grass = document.getElementById('grass');
 const fire = document.getElementById('fire');
@@ -85,6 +86,7 @@ function game(player) {
     computer: 'computer',
   };
 
+  result.innerHTML = `<div>Result here</div>`;
   greeting(greetingMessages, styles);
   printInStyle(`Enter your name with "name('your name')"`, styles);
 }
@@ -226,3 +228,5 @@ setName.addEventListener('click', (e) => {
     namePlayer(playerNameInput.value);
   }
 });
+
+resetBtn.addEventListener('click', () => resetGame());
