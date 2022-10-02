@@ -73,9 +73,9 @@ h1 {
 #result {
   margin: 2em 0;
   font-size: 2rem;
-  background-color: blueviolet;
+  border: 4px dotted blue;
 }
 
 #result div {
-  padding: 10px 0;
+  padding: 10px;
 }

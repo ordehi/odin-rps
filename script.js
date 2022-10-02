@@ -2,6 +2,9 @@
 /* 0 > 1 > 2
 last index beats first index */
 const starters = document.getElementById('starters');
+const options = document.getElementById('options');
+const playerNameInput = document.getElementById('playerName');
+const setName = document.getElementById('setName');
 const result = document.getElementById('result');
 const grass = document.getElementById('grass');
 const fire = document.getElementById('fire');
@@ -64,11 +67,11 @@ function greeting(messages, style) {
   }
 }
 
-function name(string) {
-  window.rps.playerName = string;
+function namePlayer(string) {
+  window.rps.player = string;
 }
 
-function game(playerName) {
+function game(player) {
   window.rps = {
     selection: {
       player: '',
@@ -78,7 +81,8 @@ function game(playerName) {
       player: 0,
       computer: 0,
     },
-    playerName,
+    player: player,
+    computer: 'computer',
   };
 
   greeting(greetingMessages, styles);
@@ -114,7 +118,7 @@ function playRound(choice, gameObj) {
   result.innerHTML = '';
   gameObj.selection.player = choice.toLowerCase();
   let message = buildMsg(
-    gameObj.playerName,
+    gameObj.player,
     getEmojiChoice(gameObj.selection.player)
   );
   console.log(message);
@@ -162,7 +166,7 @@ function addPoint(scoreBoard, user) {
 
 function displayScore(scoreBoard) {
   console.log(
-    `Current score:\n${window.rps.playerName}: ${scoreBoard.player}\nComputer: ${scoreBoard.computer}`
+    `Current score:\n${window.rps.player}: ${scoreBoard.player}\nComputer: ${scoreBoard.computer}`
   );
 }
 
@@ -179,19 +183,19 @@ function declareWinner(gameObj) {
   } else {
     award(winner);
     message =
-      capitalize(winner) +
+      capitalize(gameObj[winner]) +
       ' Wins with ' +
       emojiChoices[choices.indexOf(gameObj.selection[winner])];
   }
 
   printInStyle(message, styles);
-  result.innerHTML += `<div>${message}<div>`;
+  injectToResult(message);
   displayScore(window.rps.scoreBoard);
   console.log('You can play again. Or type "reset" to start from scratch');
 }
 
 function resetGame() {
-  game(window.rps.playerName);
+  game(window.rps.player);
 }
 
 Object.defineProperty(window, 'reset', {
@@ -214,5 +218,11 @@ starters.addEventListener('click', (e) => {
     let choice = e.target.id;
     playRound(choice, window.rps);
     sounds[choice].play();
+  }
+});
+
+setName.addEventListener('click', (e) => {
+  if (playerNameInput.value) {
+    namePlayer(playerNameInput.value);
   }
 });
