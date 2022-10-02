@@ -1,9 +1,18 @@
 /* to make game modular, the choices must be in descending order, i.e.: higher choices beat lower choices but the first choice beats the last choice */
 /* 0 > 1 > 2
 last index beats first index */
+const gameDiv = document.getElementById('game');
 const grass = document.getElementById('grass');
 const fire = document.getElementById('fire');
 const water = document.getElementById('water');
+const grassAudio = new Audio('./assets/audio/grass.mp3');
+const fireAudio = new Audio('./assets/audio/fire.mp3');
+const waterAudio = new Audio('./assets/audio/water.mp3');
+const sounds = {
+  grass: grassAudio,
+  fire: fireAudio,
+  water: waterAudio,
+};
 
 const choices = ['grass', 'fire', 'water'];
 const emojiChoices = ['🌿', '🔥', '🌊'];
@@ -90,7 +99,7 @@ function getEmojiChoice(choice) {
   return emoji;
 }
 
-function play(choice) {
+function playRound(choice) {
   window.rps.playerSelection = choice.toLowerCase();
   console.log(
     window.rps.playerName +
@@ -112,12 +121,12 @@ function play(choice) {
 for (const choice of choices) {
   Object.defineProperty(window, choice, {
     get: function () {
-      play(choice);
+      playRound(choice);
     },
   });
   Object.defineProperty(window, choice[0], {
     get: function () {
-      play(choice);
+      playRound(choice);
     },
   });
 }
@@ -125,7 +134,7 @@ for (const choice of choices) {
 for (const emoji of emojiChoices) {
   Object.defineProperty(window, emoji, {
     get: function () {
-      play(choices[emojiChoices.indexOf(emoji)]);
+      playRound(choices[emojiChoices.indexOf(emoji)]);
     },
   });
 }
@@ -176,3 +185,11 @@ Object.defineProperty(window, 'score', {
 });
 
 game('Player');
+
+gameDiv.addEventListener('click', (e) => {
+  if (choices.includes(e.target.id)) {
+    let choice = e.target.id;
+    playRound(choice);
+    sounds[choice].play();
+  }
+});
