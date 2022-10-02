@@ -102,16 +102,34 @@ function getEmojiChoice(choice) {
   return emoji;
 }
 
+function injectToResult(string) {
+  result.innerHTML += `<div>${string}</div>`;
+}
+
+function buildMsg(who, what) {
+  return `${who} plays ${what}`;
+}
+
 function playRound(choice, gameObj) {
+  result.innerHTML = '';
   gameObj.selection.player = choice.toLowerCase();
-  console.log(
-    gameObj.playerName + ' plays ' + getEmojiChoice(gameObj.selection.player)
+  let message = buildMsg(
+    gameObj.playerName,
+    getEmojiChoice(gameObj.selection.player)
   );
+  console.log(message);
+  injectToResult(message);
+
   gameObj.selection.computer = getComputerChoice();
+
   console.log(getFunnyWord());
+
   setTimeout(() => {
-    console.log('Computer plays ' + getEmojiChoice(gameObj.selection.computer));
+    message = buildMsg('Computer', getEmojiChoice(gameObj.selection.computer));
+    console.log(message);
+    injectToResult(message);
   }, '1000');
+
   setTimeout(() => {
     declareWinner(gameObj);
   }, '1000');
@@ -167,7 +185,7 @@ function declareWinner(gameObj) {
   }
 
   printInStyle(message, styles);
-  result.innerHTML = message;
+  result.innerHTML += `<div>${message}<div>`;
   displayScore(window.rps.scoreBoard);
   console.log('You can play again. Or type "reset" to start from scratch');
 }

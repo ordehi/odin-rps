@@ -38,3 +38,7 @@ h1 {
   font-size: 2rem;
   background-color: blueviolet;
 }
+
+#result div {
+  padding: 10px 0;
+}
