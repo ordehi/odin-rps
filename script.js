@@ -1,7 +1,24 @@
+/* to make game modular, the choices must be in descending order, i.e.: higher choices beat lower choices but the first choice beats the last choice */
+/* 0 > 1 > 2
+last index beats first index */
+
 const choices = ['grass', 'fire', 'water'];
 const emojiChoices = ['🌿', '🔥', '🌊'];
 const funnyWords = ['calculating...', 'loading...', 'ejamicating...'];
 const styles = `background-color: blue; font-size: 16px; padding:5px;`;
+
+function getWinner(playerSelection, computerSelection) {
+  let playerIdx = choices.indexOf(playerSelection);
+  let comIdx = choices.indexOf(computerSelection);
+  if (playerIdx === comIdx) return 'tie';
+
+  let winnerIdx = [playerIdx, comIdx].includes(1)
+    ? Math.max(playerIdx, comIdx)
+    : Math.min(playerIdx, comIdx);
+  let winnerUser = playerIdx === winnerIdx ? 'player' : 'computer';
+
+  return winnerUser;
+}
 
 function printInStyle(message, style) {
   console.log(`%c${message}`, style);
@@ -34,7 +51,11 @@ function greeting(messages, style) {
   }
 }
 
-function game() {
+function name(string) {
+  window.rps.playerName = string;
+}
+
+function game(playerName) {
   window.rps = {
     playerSelection: '',
     computerSelection: '',
@@ -42,9 +63,11 @@ function game() {
       player: 0,
       computer: 0,
     },
+    playerName,
   };
 
   greeting(greetingMessages, styles);
+  printInStyle(`Enter your name with "name('your name')"`, styles);
 }
 
 function getRandomIntRange(upperLimit) {
@@ -66,7 +89,11 @@ function getEmojiChoice(choice) {
 
 function play(choice) {
   window.rps.playerSelection = choice.toLowerCase();
-  console.log('You play ' + getEmojiChoice(window.rps.playerSelection));
+  console.log(
+    window.rps.playerName +
+      ' plays ' +
+      getEmojiChoice(window.rps.playerSelection)
+  );
   window.rps.computerSelection = getComputerChoice();
   console.log(getFunnyWord());
   setTimeout(() => {
@@ -106,35 +133,30 @@ function addPoint(scoreBoard, user) {
 
 function displayScore(scoreBoard) {
   console.log(
-    `Current score:\nPlayer: ${scoreBoard.player}\nComputer: ${scoreBoard.computer}`
+    `Current score:\n${window.rps.playerName}: ${scoreBoard.player}\nComputer: ${scoreBoard.computer}`
   );
 }
 
 function award(winner) {
   addPoint(window.rps.scoreBoard, winner);
-  console.log(capitalize(winner) + ' Wins!');
 }
 
 function declareWinner(players) {
   const { playerSelection, computerSelection } = players;
-  if (playerSelection === computerSelection) {
-    console.log("It's a tie!");
-  } else if (playerSelection === 'grass') {
-    if (computerSelection === 'fire') award('computer');
-    if (computerSelection === 'water') award('player');
-  } else if (playerSelection === 'fire') {
-    if (computerSelection === 'grass') award('player');
-    if (computerSelection === 'water') award('computer');
-  } else if (playerSelection === 'water') {
-    if (computerSelection === 'grass') award('computer');
-    if (computerSelection === 'fire') award('player');
+  let winner = getWinner(playerSelection, computerSelection);
+  if (winner === 'tie') {
+    printInStyle("It's a Tie!", styles);
+  } else {
+    award(winner);
+    printInStyle(capitalize(winner) + ' Wins!', styles);
   }
+
   displayScore(window.rps.scoreBoard);
   console.log('You can play again. Or type "reset" to start from scratch');
 }
 
 function resetGame() {
-  game();
+  game(window.rps.playerName);
 }
 
 Object.defineProperty(window, 'reset', {
@@ -150,4 +172,4 @@ Object.defineProperty(window, 'score', {
   },
 });
 
-game();
+game('Player');
