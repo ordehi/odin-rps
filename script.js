@@ -70,8 +70,10 @@ function name(string) {
 
 function game(playerName) {
   window.rps = {
-    playerSelection: '',
-    computerSelection: '',
+    selection: {
+      player: '',
+      computer: '',
+    },
     scoreBoard: {
       player: 0,
       computer: 0,
@@ -100,34 +102,30 @@ function getEmojiChoice(choice) {
   return emoji;
 }
 
-function playRound(choice) {
-  window.rps.playerSelection = choice.toLowerCase();
+function playRound(choice, gameObj) {
+  gameObj.selection.player = choice.toLowerCase();
   console.log(
-    window.rps.playerName +
-      ' plays ' +
-      getEmojiChoice(window.rps.playerSelection)
+    gameObj.playerName + ' plays ' + getEmojiChoice(gameObj.selection.player)
   );
-  window.rps.computerSelection = getComputerChoice();
+  gameObj.selection.computer = getComputerChoice();
   console.log(getFunnyWord());
   setTimeout(() => {
-    console.log(
-      'Computer plays ' + getEmojiChoice(window.rps.computerSelection)
-    );
+    console.log('Computer plays ' + getEmojiChoice(gameObj.selection.computer));
   }, '1000');
   setTimeout(() => {
-    declareWinner(window.rps);
+    declareWinner(gameObj);
   }, '1000');
 }
 
 for (const choice of choices) {
   Object.defineProperty(window, choice, {
     get: function () {
-      playRound(choice);
+      playRound(choice, window.rps);
     },
   });
   Object.defineProperty(window, choice[0], {
     get: function () {
-      playRound(choice);
+      playRound(choice, window.rps);
     },
   });
 }
@@ -135,7 +133,7 @@ for (const choice of choices) {
 for (const emoji of emojiChoices) {
   Object.defineProperty(window, emoji, {
     get: function () {
-      playRound(choices[emojiChoices.indexOf(emoji)]);
+      playRound(choices[emojiChoices.indexOf(emoji)], window.rps);
     },
   });
 }
@@ -154,15 +152,18 @@ function award(winner) {
   addPoint(window.rps.scoreBoard, winner);
 }
 
-function declareWinner(players) {
-  const { playerSelection, computerSelection } = players;
-  let winner = getWinner(playerSelection, computerSelection);
+function declareWinner(gameObj) {
+  const { player, computer } = gameObj.selection;
+  let winner = getWinner(player, computer);
   let message;
   if (winner === 'tie') {
     message = "It's a Tie!";
   } else {
     award(winner);
-    message = capitalize(winner) + ' Wins!';
+    message =
+      capitalize(winner) +
+      ' Wins with ' +
+      emojiChoices[choices.indexOf(gameObj.selection[winner])];
   }
 
   printInStyle(message, styles);
@@ -193,7 +194,7 @@ game('Player');
 starters.addEventListener('click', (e) => {
   if (choices.includes(e.target.id)) {
     let choice = e.target.id;
-    playRound(choice);
+    playRound(choice, window.rps);
     sounds[choice].play();
   }
 });
