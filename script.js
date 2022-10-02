@@ -1,6 +1,9 @@
 /* to make game modular, the choices must be in descending order, i.e.: higher choices beat lower choices but the first choice beats the last choice */
 /* 0 > 1 > 2
 last index beats first index */
+const grass = document.getElementById('grass');
+const fire = document.getElementById('fire');
+const water = document.getElementById('water');
 
 const choices = ['grass', 'fire', 'water'];
 const emojiChoices = ['🌿', '🔥', '🌊'];
