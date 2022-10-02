@@ -1,7 +1,7 @@
 /* to make game modular, the choices must be in descending order, i.e.: higher choices beat lower choices but the first choice beats the last choice */
 /* 0 > 1 > 2
 last index beats first index */
-const gameDiv = document.getElementById('game');
+const starters = document.getElementById('starters');
 const grass = document.getElementById('grass');
 const fire = document.getElementById('fire');
 const water = document.getElementById('water');
@@ -186,7 +186,7 @@ Object.defineProperty(window, 'score', {
 
 game('Player');
 
-gameDiv.addEventListener('click', (e) => {
+starters.addEventListener('click', (e) => {
   if (choices.includes(e.target.id)) {
     let choice = e.target.id;
     playRound(choice);

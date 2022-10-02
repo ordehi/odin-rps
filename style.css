@@ -12,13 +12,22 @@ main {
   align-items: center;
 }
 
+h1 {
+  min-width: 200px;
+}
+
 #game {
   display: flex;
   justify-content: space-around;
   width: 80%;
 }
 
-#game img:hover {
+#starters img:hover {
   cursor: pointer;
   transform: scale(1.1);
+}
+
+#starters img {
+  width: 200px;
+  height: 200px;
 }
