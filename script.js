@@ -1,5 +1,5 @@
 console.log(
-  `Welcome to Grass Fire Water.\n\nUse "play('choice')" to play, for example: "play('grass')"\n\nYou can also just enter one of the words in lower case: grass, fire, or water\n\nOr even just the first letter: g, f, w`
+  `Welcome to Grass 🌿 Fire 🔥 Water 🌊.\n\nUse "play('choice')" to play, for example: "play('grass')"\n\nYou can also just enter one of the words in lower case: grass, fire, or water\n\nOr even just the first letter: g, f, w`
 );
 
 const choices = ['grass', 'fire', 'water'];
