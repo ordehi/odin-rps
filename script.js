@@ -18,6 +18,9 @@ const sounds = {
   fire: fireAudio,
   water: waterAudio,
 };
+for (cry in sounds) {
+  sounds[cry].volume = 0.2;
+}
 
 const choices = ['grass', 'fire', 'water'];
 const emojiChoices = ['🌿', '🔥', '🌊'];
