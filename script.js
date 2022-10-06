@@ -22,6 +22,11 @@ for (cry in sounds) {
   sounds[cry].volume = 0.2;
 }
 
+for (const child of starters.children) {
+  child.style.background =
+    'url("./assets/images/' + child.id + '.png") center / contain no-repeat';
+}
+
 const choices = ['grass', 'fire', 'water'];
 const emojiChoices = ['🌿', '🔥', '🌊'];
 const funnyWords = ['calculating...', 'loading...', 'ejamicating...'];
@@ -119,6 +124,10 @@ function buildMsg(who, what) {
   return `${who} plays ${what}`;
 }
 
+function toggleStarters(starters) {
+  [...starters.children].map((mon) => (mon.disabled = !mon.disabled));
+}
+
 function playRound(choice, gameObj) {
   result.innerHTML = '';
   gameObj.selection.player = choice.toLowerCase();
@@ -132,6 +141,7 @@ function playRound(choice, gameObj) {
   gameObj.selection.computer = getComputerChoice();
 
   console.log(getFunnyWord());
+  toggleStarters(starters);
 
   setTimeout(() => {
     message = buildMsg('Computer', getEmojiChoice(gameObj.selection.computer));
@@ -141,6 +151,7 @@ function playRound(choice, gameObj) {
 
   setTimeout(() => {
     declareWinner(gameObj);
+    toggleStarters(starters);
   }, '1000');
 }
 

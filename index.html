@@ -11,21 +11,19 @@
     <main>
       <h1>Grass 🌿 Fire 🔥 Water 🌊</h1>
       <p>It's like Rock Paper Scissors, but cuter</p>
-      <p class="rules">
-        Need rules? Grass beats Water beats Fire beats Grass. 🌊 > 🔥 > 🌿 > 🌊
-      </p>
-      <div id="game">
+      <p class="rules">Wanna be the very best? 🌊 > 🔥 > 🌿 > 🌊</p>
+      <div id="game" class="container">
         <div id="starters">
-          <img src="./assets/images/grass.png" alt="grass" id="grass" />
-          <img src="./assets/images/fire.png" alt="fire" id="fire" />
-          <img src="./assets/images/water.png" alt="water" id="water" />
+          <button id="grass"></button>
+          <button id="fire"></button>
+          <button id="water"></button>
         </div>
-        <div id="options">
+        <div id="options" class="container">
           <input type="text" name="playerName" id="playerName" />
           <button id="setName">Set Player Name</button>
           <button id="reset">Reset Game</button>
         </div>
-        <div id="result"></div>
+        <div id="result" class="container"></div>
       </div>
     </main>
     <script src="script.js"></script>

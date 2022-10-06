@@ -25,6 +25,10 @@ h1 {
   min-width: 200px;
 }
 
+.container {
+  width: 80vw;
+}
+
 .rules {
   min-width: 200px;
   max-width: 600px;
@@ -39,21 +43,28 @@ h1 {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  width: 80%;
+  width: 80vw;
 }
 
 #starters {
   margin-bottom: 10px;
 }
 
-#starters img:hover {
+#starters button:hover, #starters button:focus, #starters button:active {
   cursor: pointer;
-  transform: scale(1.1);
+  transform: scale(1.2);
+  filter: saturate(250%) drop-shadow(1px 1px 8px rgb(255, 255, 255));
 }
 
-#starters img {
-  width: 200px;
-  height: 200px;
+#starters button {
+  border: 0px;
+  width: 20vw;
+  height: 20vw;
+  transition: ease-in-out .1s;
+}
+
+#starters button:disabled:not(:hover):not(:active) {
+  filter: grayscale(100%) blur(1px);
 }
 
 #options {
